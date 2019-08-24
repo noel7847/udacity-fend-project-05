@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html lang="en" class="no-js"><!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Noel Noche">
+    <meta name="description" content="Locate nearby coffee shops from your location.">
+    
+    <link rel="shortcut icon" href="https://lh3.googleusercontent.com/LgFbmGHjiarLHMRUDk017Q_u3KhJOcmGbLj12Nsz6nBjhYsgedXkF1tFweUw7HX8VuOLa8Xr4Ry8vfcU5qGwg9wx4UYhjQbkiAmwP-2j2EASiDvhZfehNbI2NqkzYtS48VxfUF15XA=s300-no">
+    
+    <!-- build:css css/styles.min.css -->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <!-- /build -->
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <title>Cafe Seeker - Noel Noche | hellonoel.com</title>
+  </head>
+  
+  <body>
+    
+    <!-- Alert panel -->
+    <div class="alert">
+      <!--[if lt IE 11]>
+        <div class="alert__browsehappy">You are using an outdated browser. Please <strong><a class="a--default" href="http://browsehappy.com/">upgrade your browser</a></strong> to improve your experience.</div>
+      <![endif]-->
+      <noscript class="alert__noscript">Sorry, you need JavaScript enabled to run this text.</noscript>
+      <div class="alert__notifier"></div>
+    </div>
+
+    <div class="page-wrapper">
+      <header class="header sr-only">
+        <h1>Neighborhood Map (Where's My Coffee)</h1>
+        <h2>A Udacity Nanodegree Project</h2>
+      </header>
+
+      <!-- Cafe list -->
+      <nav data-bind="fadeVisible: showMenu" class="navbar navbar-inverse navbar-fixed-top navbar-collapse">
+
+        <!-- Location name -->
+        <h3 class="nav__location-name" data-bind="text: $data.location">?</h3>
+        
+        <!-- Search/Filter box -->
+        <div class="nav__filter-box input-group">
+          <input class="form-control" type="text" data-bind="textInput: query" placeholder="Filter results" size="30">
+          <span class="input-group-btn">
+            <button data-bind="event: { click: filter_raters }" type="button" class="nav__ranker-btn btn btn-default btn-block glyphicon glyphicon-star-empty"></button>			     				
+          </span>
+        </div>
+        
+        <!-- Filtered results -->
+        <ul class="navbar-left" data-bind="fadein:1000, foreach: filtered()">
+          <!-- ko ifnot: hasMemo -->
+          <li class="result-item" data-bind="text: $data.name, highlight: 100, event: { click: $parent.set_marker }"></li>
+          <!-- /ko -->
+          <!-- ko if: hasMemo -->
+          <li class="result-item" data-bind="text: '&#8224; ' + $data.name, highlight: 200, event: { click: $parent.set_marker }"></li>
+          <!-- /ko -->
+        </ul>
+        
+        <!-- If no match -->
+        <b class="hidden" data-bind="visible: noMatch, css: { hidden: false }">No match</b>
+      </nav>
+
+
+      <main role="main">
+        <div class="container">
+
+          <!-- Map -->
+          <div class="row">
+            <div class="col-xs-12" id="map-canvas"></div>
+          </div>
+
+          <!-- Modal window -->
+          <div class="row">
+            <div class="col-xs-12">
+              <div data-bind="with: currentMarker" id="modalWin" class="modal modal--center-text fade" role="dialog">
+    
+                <!-- Modal content -->
+                <div class="modal-dialog modal-sm">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button data-bind="event:{ click: closeModal }" type="button" class="close" arial-label="Close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                      <h4 data-bind="text: $data.name" class="modal-title"></h4>
+                    </div>
+                    
+                    <div class="modal-body">
+                      <div id="modCarousel" class="carousel slide" data-ride="carousel">
+    
+                        <!-- Photo carousel -->
+                        <div data-bind="foreach: $data.photos" class="carousel-inner" role="listbox">				
+                          <!-- ko if: $index() === 0 -->
+                          <div class="item active">
+                            <img class="carousel-img" data-bind="attr: { src: $data }">
+                          </div>
+                          <!-- /ko -->
+                          <!-- ko ifnot: $index() === 0 -->
+                          <div class="item">
+                            <img class="carousel-img" data-bind="attr: { src: $data }">
+                          </div>
+                          <!-- /ko -->
+                        </div>
+    
+                        <!-- Left and right controls -->
+                        <a class="left carousel-control" href="#modCarousel" role="button" data-slide="prev">
+                          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#modCarousel" role="button" data-slide="next">
+                          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                          <span class="sr-only">Next</span>
+                        </a>
+                      </div>
+
+                      <hr>
+
+                      <!-- Business address and phone -->
+                      <div class="modal__info-1">
+                        <p class="info-1__item" data-bind="text: $data.address1"></p>
+                        <p class="info-1__item" data-bind="text: $data.address2"></p>
+                        <p class="tel" data-bind="text: $data.phone"></p> 
+                      </div>
+
+                      <!-- Homepage button -->
+                      <!-- <div data-bind="with: hp"> -->
+                         <!-- ko if: $data.hp -->
+                        <div class="btn-group">
+                          <a class="btn btn-default" id="homepage-link-btn" role="button" data-bind="attr: { href: $data.hp }" target="_blank">Homepage</a>
+                        </div>
+                        <!-- /ko -->
+                      <!-- </div> -->
+                      
+                      <hr>										
+        
+                      <!-- Price, rating and status -->
+                      <div class="modal__info-2">
+                        <table >
+                          <tr>
+                            <td class="info-2__category">Price </td>
+                            <td data-bind="text: $data.price"></td>
+                          </tr>
+                          <tr>
+                            <td class="info-2__category">Rating </td>
+                            <td data-bind="text: $data.ratingText"></td>
+                          </tr>
+                          <tr>
+                            <td class="info-2__category">Status </td>
+                            <td data-bind="text: $data.status"></td>
+                          </tr>
+                        </table>
+                      </div>
+
+                      <hr>
+                      
+                      <!-- User review clipping -->
+                      <div class="modal__info-3">
+                        <a data-bind="attr: { href: $data.url }, text: $data.clipping" target="_blank"></a>
+                      </div>
+                    </div>
+
+                    <!-- Memo feature and close button -->
+                    <div class="modal-footer">	
+                      <!-- ko if: $data.memoOn -->
+                      <form id="memo-form">
+                        <textarea data-bind="textInput: $data.memo" rows="4" name="memo" form="memo-form"></textarea>
+                      </form>
+                      <button data-bind="event:{ click: $data.saveMemo }" type="button" class="btn btn-default glyphicon glyphicon-ok"></button>
+                      <!-- /ko -->
+                      <!-- ko ifnot: $data.memoOn -->
+                      <div data-bind="text: $data.memo" class="memo-area"></div>
+                      <div class="btn-group">
+                        <button data-bind="event:{ click: $data.createMemo }" type="button" class="btn btn-default glyphicon glyphicon-pencil"></button>
+                        <button data-bind="event:{ click: closeModal }" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                      <!-- /ko -->
+                    </div>
+                  
+                  </div>
+                </div>
+                <!-- End: Modal content -->
+    
+              </div>
+            </div>
+          </div>
+          <!-- END: Modal window -->
+          
+        </div>
+      </main>
+
+      
+      <footer class="footer">
+        <p class="footer__item"><a href="https://github.com/noelnoche/udacity-fend-neighborhood-map" target="_blank">GitHub</a></p>
+        <p class="footer__item"><a href="https://hellonoel.com">hellonoel.com</a></p>
+      </footer>	
+    </div>
+    
+    
+    <!-- build:js js/vendor.min.js -->
+    <script type="text/javascript" src="js/vendor/jquery.js"></script>
+    <script type="text/javascript" src="js/vendor/bootstrap.js"></script>
+    <script type="text/javascript" src="js/vendor/knockout-latest.js"></script>
+    <!-- /build -->
+    
+    <!-- build:js js/main.min.js -->
+    <script type="text/javascript" async src="js/main.js"></script>
+    <!-- /build -->
+
+    <script>
+      $(function() {
+
+        // Centers the modal window vertically
+        function reposition() {
+          var modal = $(this);
+          dialog = modal.find('.modal-dialog');
+          modal.css('display', 'block');
+
+          // Dividing by two centers the modal exactly
+          dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+        }
+        
+        // Reposition when a modal is displayed
+        $('.modal').on('show.bs.modal', reposition);
+        
+        // Reposition when the window is resized
+        $(window).on('resize', function() {
+          $('.modal:visible').each(reposition);
+        });
+      });
+    </script>
+    
+
+  </body>
+</html>
