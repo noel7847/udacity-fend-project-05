@@ -18,7 +18,7 @@ Features
 + Memo taking functionality
 + Error indicator
 + Clean and responsive user interface
-+ Full **[documentation](https://noelnoche.github.io/udacity-fend-neighborhood-map/docs/jsdoc)**
++ Full **[documentation](https://noelnoche.github.io/udacity-fend-neighborhood-map/docs/jsdoc/)**
 
 
 Demo
