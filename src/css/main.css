@@ -1,0 +1,293 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  padding-bottom: 3rem;
+  font-size: 1rem;
+  text-rendering: optimizeLegibility;
+  background-color: #ccc;
+}
+
+h1,
+h2,
+h3,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.a--default {
+  color: #33f;
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #69c;
+}
+
+.hidden {
+  position: absolute;
+  z-index: -99;
+  top: -9999px;
+  left: -9999px;
+  opacity: 0;
+}
+
+.btn {
+  top: 0;
+}
+
+.btn--border-ccc {
+  border: 1px solid #ccc;
+}
+
+hr {
+  margin: 1rem 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.btn:focus,
+.btn:active {
+  outline: 0;
+}
+
+::-webkit-scrollbar {
+  width: 0.375rem;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 0.375rem;
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* Alerts panel
+------------------------------------------------------------------------------*/
+.alert-panel {
+  position: absolute;
+  z-index: 1500;
+  left: 0;
+  top: 0;
+  width: 100%;
+  padding: 0;
+  text-align: center;
+}
+
+.alert-panel__browsehappy {
+  background-color: #fff;
+}
+
+.alert-panel__noscript {
+  background-color: #fc6;
+}
+
+.geolocation__notifier {
+  color: #fff;
+  background-color: #c33;
+}
+
+
+/* Cafe listing panel
+------------------------------------------------------------------------------*/
+.navbar {
+  max-width: 16.875rem;
+  height: 100%;
+  z-index: 1000;
+  padding: 1rem;
+  background-color: #003;
+  color: azure;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.nav-card__location-name {
+  text-align: center;
+}
+
+.nav__filter-box {
+  margin-bottom: 0;
+  margin-top: 1.5rem;
+}
+
+.nav__ranker-btn--inactive {
+  background-color: #eee;
+}
+
+.nav__ranker-btn--active {
+  background-color: #63be46;
+}
+
+.ranker-btn__img {
+  display: block;
+  width: 1rem;
+}
+
+.ranker-btn__img--png {
+  display: none;
+}
+
+.no-svgasimg .ranker-btn__img--png {
+  display: initial;
+}
+
+ul {
+  display: none;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+li {
+  padding: 0.625rem 0;
+  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+/* Map and modal
+------------------------------------------------------------------------------*/
+#map-canvas {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+}
+
+.infowin__title {
+  margin: 0.5rem auto;
+}
+
+.infowin__btn {
+  display: block;
+  margin: auto;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  line-height: 1;
+  letter-spacing: 0.25px;
+}
+
+.modal-header,
+.modal-footer,
+.modal-close {
+  color: #fff;
+  background-color: #003;
+}
+
+.modal-close {
+  opacity: 1;
+  text-shadow: none;
+}
+
+.carousel {
+  background-color: #000;
+}
+
+.carousel-img {
+  margin: auto;
+}
+
+/* 
+Opening memo box messes up the opaque modal backdrop
+http://stackoverflow.com/questions/28096346/how-to-change-background-opacity-when-bootstrap-modal-is-open
+*/
+.modal-backdrop {
+  height: 100% !important;
+}
+
+.modal__info-1 {
+  text-align: center;
+}
+
+.info-1__item {
+  margin: 0;
+}
+
+.homepage-link-btn {
+  display: table;
+  margin: auto;
+}
+
+table {
+  width: 100%;
+}
+
+table, tr, td {
+  border: none;
+}
+
+.modal__info-2,
+.modal__info-3 {
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.info-2__category {
+  font-weight: bold;
+  letter-spacing: 0.15px;
+  text-transform: uppercase;
+}
+
+.modal__info-3 {
+  color: #069;
+  font-family: serif;
+  font-size: 1rem;
+}
+
+.close {
+  opacity: 1;
+  color: #fff;
+  text-shadow: none;
+}
+
+
+/* Memo feature
+------------------------------------------------------------------------------*/
+.memo-form {
+  width: 100% !important;
+  color: #000;
+}
+
+textarea {
+  width: inherit;
+}
+
+.memo-area {
+  width: 100%;
+  color: #fff;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+
+/* Footer
+------------------------------------------------------------------------------*/
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 0;
+  font-size: 0.90rem;
+  text-align: right;
+}
+
+.footer__item {
+  display: inline-block;
+  margin: 0 1.5rem;
+}
