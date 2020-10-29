@@ -24,22 +24,22 @@ Cafe Seeker locates coffee shops and bakeries that are within a 1000 meter radiu
 
 
 ## Usage
-1. Click on a place from the list or the map
-2. Click the star button below the filter box to see places with the highest rating
-3. Click the window expansion icon to view place details
-4. Click the pencil icon to make a personal memo about the place
-5. Click the check mark to save the memo in the browser's local storage. Places with a memo will have a small dagger mark next to them in the list
-6. To delete a memo, click on the pencil icon, delete the text and click the check mark icon
-7. Click on the review snippet to jump to the Google source page
+1. Click on a place from the list or the map.
+2. Click the star button below the filter box to see places with the highest rating.
+3. Click the window expansion icon to view place details.
+4. Click the pencil icon to make a personal memo about the place.
+5. Click the check mark to save the memo in the browser's local storage. Places with a memo will have a small dagger mark next to them in the list.
+6. To delete a memo, click on the pencil icon, delete the text and click the check mark icon.
+7. Click on the review snippet to jump to the Google source page.
 
 
 ## Development
-1. Supply your Google Maps API key in .env file
+1. Supply your Google Maps API key in .env file.
 2. Run development build: `npm start`
-3. Make your changes to individual src/app/*.js files
+3. Make your changes to individual src/app/*.js files.
 4. Run eslint (make needed corrections and repeat from step 4): `npm run eslint`
 7. Open the application in the browser: `localhost:8080`
-8. To stop the server hit control + C
+8. To stop the server: control + C
 9. To compile production version: `npm run build`
 
 
