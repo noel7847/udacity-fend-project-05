@@ -15,7 +15,7 @@ Cafe Seeker locates coffee shops and bakeries that are within a 1000 meter radiu
 
 
 ## Demo
-<https://youtu.be/N4lCrNZEze0>
+<https://youtu.be/_-kB8UekVGA>
 
 
 ## Documentation
