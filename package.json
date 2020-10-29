@@ -18,7 +18,7 @@
     "start:open": "webpack-dev-server --config webpack.dev.js --open",
     "build": "webpack --config webpack.prod.js",
     "eslint": "npx eslint src/app/*.js",
-    "jsdoc": "npx jsdoc -P package.json src/app/*.js -r -d docs"
+    "jsdoc": "npx jsdoc -R README.md src/app/*.js -r -d docs"
   },
   "dependencies": {
     "bootstrap": "^4.5.0",
