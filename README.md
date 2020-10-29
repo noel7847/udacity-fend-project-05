@@ -19,7 +19,7 @@ Cafe Seeker locates coffee shops and bakeries that are within a 1000 meter radiu
 
 
 ## Documentation
-<https://noelnoche.github.io/udacity-fend-neighborhood-map/cafe-seeker/1.0.0/index.html>
+<https://noelnoche.github.io/udacity-cafe-seeker/cafe-seeker/1.0.0/index.html>
 
 
 ## Usage
@@ -48,4 +48,4 @@ Cafe Seeker locates coffee shops and bakeries that are within a 1000 meter radiu
 
 
 ## License
-Code provided under an **[MIT license](https://github.com/noelnoche/udacity-fend-neighborhood-map/blob/master/LICENSE.md)**.
+Code provided under an **[MIT license](https://github.com/noelnoche/udacity-cafe-seeker/blob/master/LICENSE.md)**.
