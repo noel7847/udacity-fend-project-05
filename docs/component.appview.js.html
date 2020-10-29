@@ -16,14 +16,13 @@
   <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 
   <style>
-    .main>h3 {
-      margin-bottom: 3rem;
-      font-size: 2.25rem;
-      border-bottom: 1px solid #cdcdcd;
-    }
-
     section > header {
       padding: 0;
+    }
+
+    article h2:nth-child(8),
+    article p:nth-child(9) {
+      display: none;
     }
   </style>
 </head>
@@ -43,15 +42,14 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @fileOverview Knockout view model
- * @author Noel Noche
+            <pre class="prettyprint source linenums"><code>/** 
+ * Application view model
+ * @module component.appview
  * @version 1.0.0
  */
 
-/* global $ ko */
 
-/** @module AppViewModel */
+/* global $ ko */
 
 /**
  * AppViewModel class
@@ -99,7 +97,7 @@ function AppViewModel(map, results, loadMarkerData) {
    */
   var locAddr = results[0].vicinity;
   var locAddrLen = locAddr.split(",").length;
-  
+
   if (locAddrLen > 0) {
     self.location = locAddr.split(',')[locAddrLen - 1];
   }
@@ -127,7 +125,7 @@ function AppViewModel(map, results, loadMarkerData) {
    * @memberof AppViewModel.protoype
    * @method initializeAppView
    */
-  self.initializeAppView = function() {
+  self.initializeAppView = function () {
     /**
      * Technique for updating ko observable arrays without invoking binding
      * every time an item is added (which would increase latency)
@@ -135,9 +133,9 @@ function AppViewModel(map, results, loadMarkerData) {
     var subArray1 = self.markerList;
     var subArray2 = self.ratersArray;
 
-    results.forEach(function(result) {
+    results.forEach(function (result) {
       var mkrObj = new MarkerViewModel(self, map, result);
-      
+
       if (localStorage[mkrObj.name]) {
         mkrObj.memo(localStorage[mkrObj.name]);
         mkrObj.hasMemo(true);
@@ -158,8 +156,8 @@ function AppViewModel(map, results, loadMarkerData) {
    * @memberof AppViewModel.prototype
    * @method filter_raters
    */
-  self.filter_raters = function() {
-    var $rankerBtn =  $('.nav__ranker-btn');
+  self.filter_raters = function () {
+    var $rankerBtn = $('.nav__ranker-btn');
     var $rankerBtnImg = $('.ranker-btn__img');
 
     if (!self.raterFilterOn()) {
@@ -171,7 +169,7 @@ function AppViewModel(map, results, loadMarkerData) {
         self.markerList()[i].pin.setMap(null);
       }
 
-      self.ratersArray().forEach(function(mkrObj) {
+      self.ratersArray().forEach(function (mkrObj) {
         if (mkrObj.topRanker()) {
           mkrObj.pin.setMap(map);
         }
@@ -193,7 +191,7 @@ function AppViewModel(map, results, loadMarkerData) {
    * @memberof AppViewModel.prototype
    * @method filter_raters
    */
-  self.set_marker = function(clickedMarker) {
+  self.set_marker = function (clickedMarker) {
     if (self.lastActive() &amp;&amp; self.lastActive().name !== clickedMarker.name) {
       self.lastActive().infoWin.close();
       self.lastActive().winOpen = false;
@@ -221,7 +219,7 @@ function AppViewModel(map, results, loadMarkerData) {
    * @memberof AppViewModel.prototype
    * @method filtered
    */
-  self.filtered = ko.computed(function() {
+  self.filtered = ko.computed(function () {
     var filterGroup;
     var filter = self.query().toLowerCase().replace(/\s+/g, '');
 
@@ -248,7 +246,7 @@ function AppViewModel(map, results, loadMarkerData) {
       return filterGroup;
     }
     else {
-      return ko.utils.arrayFilter(filterGroup, function(place) {
+      return ko.utils.arrayFilter(filterGroup, function (place) {
         if (place.name.toLowerCase().replace(/\s+/g, '').indexOf(filter) > -1) {
           place.pin.setMap(map);
           return place;
@@ -271,12 +269,12 @@ function AppViewModel(map, results, loadMarkerData) {
    * @param {number} valueAccessor - The duration of the highlight effect
    */
   ko.bindingHandlers.highlight = {
-    update: function(element, valueAccessor) {
+    update: function (element, valueAccessor) {
       var duration = valueAccessor();
-      $(element).mouseenter(function() {
+      $(element).mouseenter(function () {
         $(element).fadeTo(duration, 0.5);
       });
-      $(element).mouseleave(function() {
+      $(element).mouseleave(function () {
         $(element).fadeTo(duration, 1);
       });
     }
@@ -290,7 +288,7 @@ function AppViewModel(map, results, loadMarkerData) {
    * @param {number} valueAccessor - The duration of the fade-in animation
    */
   ko.bindingHandlers.fadein = {
-    update: function(element, valueAccessor) {
+    update: function (element, valueAccessor) {
       var duration = valueAccessor();
       $(element).fadeIn(duration);
     }
@@ -304,11 +302,11 @@ function AppViewModel(map, results, loadMarkerData) {
    * @param {number} valueAccessor - The duration of the fade-in animation
    */
   ko.bindingHandlers.fadeVisible = {
-    init: function(element, valueAccessor) {
+    init: function (element, valueAccessor) {
       var value = valueAccessor();
       $(element).toggle(ko.unwrap(value));
     },
-    update: function(element, valueAccessor) {
+    update: function (element, valueAccessor) {
       var value = valueAccessor();
 
       if (ko.unwrap(value)) {
@@ -332,7 +330,7 @@ module.exports = AppViewModel;
     </div>
 
     <nav>
-      <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-AppViewModel.html">AppViewModel</a></li><li><a href="module-GeolocationService.html">GeolocationService</a></li><li><a href="module-GoogleMapsView.html">GoogleMapsView</a></li><li><a href="module-MarkerViewModel.html">MarkerViewModel</a></li></ul><h3>Classes</h3><ul><li><a href="module-AppViewModel-AppViewModel.html">AppViewModel</a></li><li><a href="module-MarkerViewModel-MarkerViewModel.html">MarkerViewModel</a></li></ul>
+      <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="component.module_appview.html">appview</a></li><li><a href="component.module_googlemaps.html">googlemaps</a></li><li><a href="component.module_markerview.html">markerview</a></li><li><a href="module-main.html">main</a></li><li><a href="service.module_geolocation.html">geolocation</a></li></ul><h3>Classes</h3><ul><li><a href="component.module_appview-AppViewModel.html">AppViewModel</a></li><li><a href="component.module_markerview-MarkerViewModel.html">MarkerViewModel</a></li></ul>
       <div class="nav__repo">
         <h3><a href="https://github.com/noelnoche/fcc-microservices">Repository</a>
           <svg class="nav__svg-icon" viewBox="0 0 92 92" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -355,7 +353,7 @@ module.exports = AppViewModel;
         3.6.6</a>
       
       on
-      Wed Oct 28 2020 16:20:53 GMT-0700 (Pacific Daylight Time)
+      Wed Oct 28 2020 21:25:46 GMT-0700 (Pacific Daylight Time)
       
     </footer>
   </div>

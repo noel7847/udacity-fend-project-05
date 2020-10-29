@@ -16,14 +16,13 @@
   <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 
   <style>
-    .main>h3 {
-      margin-bottom: 3rem;
-      font-size: 2.25rem;
-      border-bottom: 1px solid #cdcdcd;
-    }
-
     section > header {
       padding: 0;
+    }
+
+    article h2:nth-child(8),
+    article p:nth-child(9) {
+      display: none;
     }
   </style>
 </head>
@@ -43,16 +42,15 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @file Application Google Maps component
- * @author Noel Noche
+            <pre class="prettyprint source linenums"><code>/** 
+ * Application Google Maps component
+ * @module component.googlemaps
  * @version 1.0.0
  */
 
+
 /* global $ google ko process*/
 'use strict';
-
-/** @module GoogleMapsView */
 
 /**
  * Holds the imported geolocation service module functions
@@ -115,7 +113,7 @@ function callGoogleMaps(apiKey) {
     url: mapsUrl,
     dataType: 'jsonp'
   })
-  .done(initMaps);
+    .done(initMaps);
 }
 
 /**
@@ -197,7 +195,7 @@ function buildMap(posObj) {
       lat = 37.7833;
       lon = -122.4167;
     }
-  
+
     var locObj = new google.maps.LatLng(lat, lon);
 
     var mapProperties = {
@@ -239,12 +237,12 @@ function loadMarkerData(mkrObj) {
   var requestObj = {
     placeId: mkrObj.id
   };
-  
-  service.getDetails(requestObj, function(place, status) {
+
+  service.getDetails(requestObj, function (place, status) {
     var placeDataList = ['photos', 'address_components', 'formatted_phone_number', 'international_phone_number', 'price_level', 'rating', 'user_ratings_total', 'opening_hours', 'reviews', 'url'];
     var curItem = null;
     var phone = null;
-    
+
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       for (i = 0, len = placeDataList.length; i &lt; len; i++) {
         curItem = place[placeDataList[i]];
@@ -255,7 +253,7 @@ function loadMarkerData(mkrObj) {
 
       // Photos
       if (typeof place.photos === 'object') {
-        place.photos.forEach(function(photo) {
+        place.photos.forEach(function (photo) {
           mkrObj.photos.push(photo.getUrl({
             'maxWidth': 350,
             'maxHeight': 200
@@ -301,7 +299,7 @@ function loadMarkerData(mkrObj) {
       }
       else {
         mkrObj.status('Now Closed');
-      }        
+      }
 
       // Review snippit with source link
       var clip = '';
@@ -321,15 +319,15 @@ function loadMarkerData(mkrObj) {
       else {
         clip = 'No comments or link available.';
       }
-    } 
+    }
     else {
       geolocationService.handleError(status);
     }
   });
 }
 
-  
-module.exports = (function() {
+
+module.exports = (function () {
   return {
     loadMarkerData: loadMarkerData,
     callGoogleMaps: callGoogleMaps
@@ -344,7 +342,7 @@ module.exports = (function() {
     </div>
 
     <nav>
-      <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-AppViewModel.html">AppViewModel</a></li><li><a href="module-GeolocationService.html">GeolocationService</a></li><li><a href="module-GoogleMapsView.html">GoogleMapsView</a></li><li><a href="module-MarkerViewModel.html">MarkerViewModel</a></li></ul><h3>Classes</h3><ul><li><a href="module-AppViewModel-AppViewModel.html">AppViewModel</a></li><li><a href="module-MarkerViewModel-MarkerViewModel.html">MarkerViewModel</a></li></ul>
+      <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="component.module_appview.html">appview</a></li><li><a href="component.module_googlemaps.html">googlemaps</a></li><li><a href="component.module_markerview.html">markerview</a></li><li><a href="module-main.html">main</a></li><li><a href="service.module_geolocation.html">geolocation</a></li></ul><h3>Classes</h3><ul><li><a href="component.module_appview-AppViewModel.html">AppViewModel</a></li><li><a href="component.module_markerview-MarkerViewModel.html">MarkerViewModel</a></li></ul>
       <div class="nav__repo">
         <h3><a href="https://github.com/noelnoche/fcc-microservices">Repository</a>
           <svg class="nav__svg-icon" viewBox="0 0 92 92" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -367,7 +365,7 @@ module.exports = (function() {
         3.6.6</a>
       
       on
-      Wed Oct 28 2020 16:20:53 GMT-0700 (Pacific Daylight Time)
+      Wed Oct 28 2020 21:25:46 GMT-0700 (Pacific Daylight Time)
       
     </footer>
   </div>

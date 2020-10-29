@@ -16,14 +16,13 @@
   <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 
   <style>
-    .main>h3 {
-      margin-bottom: 3rem;
-      font-size: 2.25rem;
-      border-bottom: 1px solid #cdcdcd;
-    }
-
     section > header {
       padding: 0;
+    }
+
+    article h2:nth-child(8),
+    article p:nth-child(9) {
+      display: none;
     }
   </style>
 </head>
@@ -44,15 +43,14 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @fileOverview Map marker component
- * @author Noel Noche
+ * Map marker component
+ * @module component.markerview
  * @version 1.0.0
  */
-  
+
+
 /* global $ google ko  */
 
-/** @module MarkerViewModel */
-  
 /**
  * MarkerViewModel class
  * @class
@@ -89,7 +87,7 @@ function MarkerViewModel(parent, map, data) {
    * @type {Object}
    */
   var geolocationService = require('./service.geolocation');
-  
+
   /** @this {MarkerViewModel} */
   var self = this;
 
@@ -169,7 +167,7 @@ function MarkerViewModel(parent, map, data) {
    * @memberof MarkerViewModel.prototype
    * @method closeModal
    */
-  self.closeModal = function() {
+  self.closeModal = function () {
     self.winOpen = false;
     self.memoOn(false);
     if (parent.viewportWidth() &lt; 750) {
@@ -183,7 +181,7 @@ function MarkerViewModel(parent, map, data) {
    * @memberof MarkerViewModel.prototype
    * @method createMemo
    */
-  self.createMemo = function() {
+  self.createMemo = function () {
     self.memoOn(true);
     var $modalBackdrop = $('.modal-backdrop');
 
@@ -197,7 +195,7 @@ function MarkerViewModel(parent, map, data) {
    * @memberof MarkerViewModel.prototype
    * @method saveMemo
    */
-  self.saveMemo = function() {
+  self.saveMemo = function () {
     var memosArray = getMemosArray('memosArray');
     var key = self.name;
     var value = self.memo();
@@ -232,7 +230,7 @@ function MarkerViewModel(parent, map, data) {
    * @memberof MarkerViewModel.prototype
    * @method toggleBounce
    */
-  self.centerOn = function() {
+  self.centerOn = function () {
     map.panTo(self.pin.getPosition());
   };
 
@@ -241,7 +239,7 @@ function MarkerViewModel(parent, map, data) {
    * @memberof MarkerViewModel.prototype
    * @method toggleBounce
    */
-  self.toggleBounce = function() {
+  self.toggleBounce = function () {
     if (self.winOpen) {
       window.clearTimeout(timer);
       self.pin.setAnimation(null);
@@ -255,7 +253,7 @@ function MarkerViewModel(parent, map, data) {
     }
     else {
       self.pin.setAnimation(google.maps.Animation.BOUNCE);
-      timer = window.setTimeout(function() {
+      timer = window.setTimeout(function () {
         self.pin.setAnimation(null);
       }, 2800);
       self.infoWin.open(map, self.pin);
@@ -267,12 +265,12 @@ function MarkerViewModel(parent, map, data) {
   };
 
   /** Maps event listener for user click actions on the marker icon */
-  google.maps.event.addListener(self.pin, 'click', function() {
+  google.maps.event.addListener(self.pin, 'click', function () {
     parent.set_marker(self);
   });
 
   /** Maps event listener for the close tab of the info window */
-  google.maps.event.addListener(self.infoWin, 'closeclick', function() {
+  google.maps.event.addListener(self.infoWin, 'closeclick', function () {
     self.pin.setAnimation(null);
     if (parent.viewportWidth() &lt; 750) {
       parent.showMenu(true);
@@ -290,7 +288,7 @@ module.exports = MarkerViewModel;</code></pre>
     </div>
 
     <nav>
-      <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-AppViewModel.html">AppViewModel</a></li><li><a href="module-GeolocationService.html">GeolocationService</a></li><li><a href="module-GoogleMapsView.html">GoogleMapsView</a></li><li><a href="module-MarkerViewModel.html">MarkerViewModel</a></li></ul><h3>Classes</h3><ul><li><a href="module-AppViewModel-AppViewModel.html">AppViewModel</a></li><li><a href="module-MarkerViewModel-MarkerViewModel.html">MarkerViewModel</a></li></ul>
+      <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="component.module_appview.html">appview</a></li><li><a href="component.module_googlemaps.html">googlemaps</a></li><li><a href="component.module_markerview.html">markerview</a></li><li><a href="module-main.html">main</a></li><li><a href="service.module_geolocation.html">geolocation</a></li></ul><h3>Classes</h3><ul><li><a href="component.module_appview-AppViewModel.html">AppViewModel</a></li><li><a href="component.module_markerview-MarkerViewModel.html">MarkerViewModel</a></li></ul>
       <div class="nav__repo">
         <h3><a href="https://github.com/noelnoche/fcc-microservices">Repository</a>
           <svg class="nav__svg-icon" viewBox="0 0 92 92" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -313,7 +311,7 @@ module.exports = MarkerViewModel;</code></pre>
         3.6.6</a>
       
       on
-      Wed Oct 28 2020 16:20:53 GMT-0700 (Pacific Daylight Time)
+      Wed Oct 28 2020 21:25:46 GMT-0700 (Pacific Daylight Time)
       
     </footer>
   </div>
