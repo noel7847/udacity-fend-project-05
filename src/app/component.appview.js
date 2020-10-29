@@ -1,12 +1,11 @@
-/**
- * @fileOverview Knockout view model
- * @author Noel Noche
+/** 
+ * Application view model
+ * @module component.appview
  * @version 1.0.0
  */
 
-/* global $ ko */
 
-/** @module AppViewModel */
+/* global $ ko */
 
 /**
  * AppViewModel class
@@ -54,7 +53,7 @@ function AppViewModel(map, results, loadMarkerData) {
    */
   var locAddr = results[0].vicinity;
   var locAddrLen = locAddr.split(",").length;
-  
+
   if (locAddrLen > 0) {
     self.location = locAddr.split(',')[locAddrLen - 1];
   }
@@ -82,7 +81,7 @@ function AppViewModel(map, results, loadMarkerData) {
    * @memberof AppViewModel.protoype
    * @method initializeAppView
    */
-  self.initializeAppView = function() {
+  self.initializeAppView = function () {
     /**
      * Technique for updating ko observable arrays without invoking binding
      * every time an item is added (which would increase latency)
@@ -90,9 +89,9 @@ function AppViewModel(map, results, loadMarkerData) {
     var subArray1 = self.markerList;
     var subArray2 = self.ratersArray;
 
-    results.forEach(function(result) {
+    results.forEach(function (result) {
       var mkrObj = new MarkerViewModel(self, map, result);
-      
+
       if (localStorage[mkrObj.name]) {
         mkrObj.memo(localStorage[mkrObj.name]);
         mkrObj.hasMemo(true);
@@ -113,8 +112,8 @@ function AppViewModel(map, results, loadMarkerData) {
    * @memberof AppViewModel.prototype
    * @method filter_raters
    */
-  self.filter_raters = function() {
-    var $rankerBtn =  $('.nav__ranker-btn');
+  self.filter_raters = function () {
+    var $rankerBtn = $('.nav__ranker-btn');
     var $rankerBtnImg = $('.ranker-btn__img');
 
     if (!self.raterFilterOn()) {
@@ -126,7 +125,7 @@ function AppViewModel(map, results, loadMarkerData) {
         self.markerList()[i].pin.setMap(null);
       }
 
-      self.ratersArray().forEach(function(mkrObj) {
+      self.ratersArray().forEach(function (mkrObj) {
         if (mkrObj.topRanker()) {
           mkrObj.pin.setMap(map);
         }
@@ -148,7 +147,7 @@ function AppViewModel(map, results, loadMarkerData) {
    * @memberof AppViewModel.prototype
    * @method filter_raters
    */
-  self.set_marker = function(clickedMarker) {
+  self.set_marker = function (clickedMarker) {
     if (self.lastActive() && self.lastActive().name !== clickedMarker.name) {
       self.lastActive().infoWin.close();
       self.lastActive().winOpen = false;
@@ -176,7 +175,7 @@ function AppViewModel(map, results, loadMarkerData) {
    * @memberof AppViewModel.prototype
    * @method filtered
    */
-  self.filtered = ko.computed(function() {
+  self.filtered = ko.computed(function () {
     var filterGroup;
     var filter = self.query().toLowerCase().replace(/\s+/g, '');
 
@@ -203,7 +202,7 @@ function AppViewModel(map, results, loadMarkerData) {
       return filterGroup;
     }
     else {
-      return ko.utils.arrayFilter(filterGroup, function(place) {
+      return ko.utils.arrayFilter(filterGroup, function (place) {
         if (place.name.toLowerCase().replace(/\s+/g, '').indexOf(filter) > -1) {
           place.pin.setMap(map);
           return place;
@@ -226,12 +225,12 @@ function AppViewModel(map, results, loadMarkerData) {
    * @param {number} valueAccessor - The duration of the highlight effect
    */
   ko.bindingHandlers.highlight = {
-    update: function(element, valueAccessor) {
+    update: function (element, valueAccessor) {
       var duration = valueAccessor();
-      $(element).mouseenter(function() {
+      $(element).mouseenter(function () {
         $(element).fadeTo(duration, 0.5);
       });
-      $(element).mouseleave(function() {
+      $(element).mouseleave(function () {
         $(element).fadeTo(duration, 1);
       });
     }
@@ -245,7 +244,7 @@ function AppViewModel(map, results, loadMarkerData) {
    * @param {number} valueAccessor - The duration of the fade-in animation
    */
   ko.bindingHandlers.fadein = {
-    update: function(element, valueAccessor) {
+    update: function (element, valueAccessor) {
       var duration = valueAccessor();
       $(element).fadeIn(duration);
     }
@@ -259,11 +258,11 @@ function AppViewModel(map, results, loadMarkerData) {
    * @param {number} valueAccessor - The duration of the fade-in animation
    */
   ko.bindingHandlers.fadeVisible = {
-    init: function(element, valueAccessor) {
+    init: function (element, valueAccessor) {
       var value = valueAccessor();
       $(element).toggle(ko.unwrap(value));
     },
-    update: function(element, valueAccessor) {
+    update: function (element, valueAccessor) {
       var value = valueAccessor();
 
       if (ko.unwrap(value)) {

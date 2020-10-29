@@ -1,7 +1,12 @@
+/**
+ * Map marker component
+ * @module main
+ * @version 1.0.0
+ */
+
+
 /* process */
 'use strict';
-
-/** @module App */
 
 /**
  * Holds the imported googleMaps component
@@ -17,8 +22,8 @@ function run() {
   window.onload = googleMaps.callGoogleMaps(process.env.API_KEY);
 }
 
- 
-module.exports = (function() {
+
+module.exports = (function () {
   return {
     run: run
   }

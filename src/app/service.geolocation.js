@@ -1,13 +1,12 @@
 /**
- * @fileOverview Geolocation service
- * @author Noel Noche
+ * Geolocation service
+ * @module service.geolocation
  * @version 1.0.0
  */
 
+
 /* global $ */
 'use strict';
-
-/** @module GeolocationService */
 
 /**
  * Shows message banner telling the end user an error has occurred
@@ -52,9 +51,9 @@ function handleError(errorId) {
   if (typeof $ !== 'undefined') {
     showMessage();
   }
-  
+
   console.error(errorMsg);
-  return errorMsg; 
+  return errorMsg;
 }
 
 /**
@@ -68,7 +67,7 @@ function checkGeolocation() {
   else {
     handleError('Browser does not support geolocation.');
     return false;
-  } 
+  }
 }
 
 /**
@@ -87,10 +86,10 @@ function checkOnlineStatus() {
 }
 
 
-module.exports = (function() {
+module.exports = (function () {
   return {
     handleError: handleError,
     checkGeolocation: checkGeolocation,
     checkOnlineStatus: checkOnlineStatus
-  }  
+  }
 })();

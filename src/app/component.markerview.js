@@ -1,13 +1,12 @@
 /**
- * @fileOverview Map marker component
- * @author Noel Noche
+ * Map marker component
+ * @module component.markerview
  * @version 1.0.0
  */
-  
+
+
 /* global $ google ko  */
 
-/** @module MarkerViewModel */
-  
 /**
  * MarkerViewModel class
  * @class
@@ -44,7 +43,7 @@ function MarkerViewModel(parent, map, data) {
    * @type {Object}
    */
   var geolocationService = require('./service.geolocation');
-  
+
   /** @this {MarkerViewModel} */
   var self = this;
 
@@ -124,7 +123,7 @@ function MarkerViewModel(parent, map, data) {
    * @memberof MarkerViewModel.prototype
    * @method closeModal
    */
-  self.closeModal = function() {
+  self.closeModal = function () {
     self.winOpen = false;
     self.memoOn(false);
     if (parent.viewportWidth() < 750) {
@@ -138,7 +137,7 @@ function MarkerViewModel(parent, map, data) {
    * @memberof MarkerViewModel.prototype
    * @method createMemo
    */
-  self.createMemo = function() {
+  self.createMemo = function () {
     self.memoOn(true);
     var $modalBackdrop = $('.modal-backdrop');
 
@@ -152,7 +151,7 @@ function MarkerViewModel(parent, map, data) {
    * @memberof MarkerViewModel.prototype
    * @method saveMemo
    */
-  self.saveMemo = function() {
+  self.saveMemo = function () {
     var memosArray = getMemosArray('memosArray');
     var key = self.name;
     var value = self.memo();
@@ -187,7 +186,7 @@ function MarkerViewModel(parent, map, data) {
    * @memberof MarkerViewModel.prototype
    * @method toggleBounce
    */
-  self.centerOn = function() {
+  self.centerOn = function () {
     map.panTo(self.pin.getPosition());
   };
 
@@ -196,7 +195,7 @@ function MarkerViewModel(parent, map, data) {
    * @memberof MarkerViewModel.prototype
    * @method toggleBounce
    */
-  self.toggleBounce = function() {
+  self.toggleBounce = function () {
     if (self.winOpen) {
       window.clearTimeout(timer);
       self.pin.setAnimation(null);
@@ -210,7 +209,7 @@ function MarkerViewModel(parent, map, data) {
     }
     else {
       self.pin.setAnimation(google.maps.Animation.BOUNCE);
-      timer = window.setTimeout(function() {
+      timer = window.setTimeout(function () {
         self.pin.setAnimation(null);
       }, 2800);
       self.infoWin.open(map, self.pin);
@@ -222,12 +221,12 @@ function MarkerViewModel(parent, map, data) {
   };
 
   /** Maps event listener for user click actions on the marker icon */
-  google.maps.event.addListener(self.pin, 'click', function() {
+  google.maps.event.addListener(self.pin, 'click', function () {
     parent.set_marker(self);
   });
 
   /** Maps event listener for the close tab of the info window */
-  google.maps.event.addListener(self.infoWin, 'closeclick', function() {
+  google.maps.event.addListener(self.infoWin, 'closeclick', function () {
     self.pin.setAnimation(null);
     if (parent.viewportWidth() < 750) {
       parent.showMenu(true);

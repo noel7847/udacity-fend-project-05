@@ -1,13 +1,12 @@
-/**
- * @file Application Google Maps component
- * @author Noel Noche
+/** 
+ * Application Google Maps component
+ * @module component.googlemaps
  * @version 1.0.0
  */
 
+
 /* global $ google ko process*/
 'use strict';
-
-/** @module GoogleMapsView */
 
 /**
  * Holds the imported geolocation service module functions
@@ -70,7 +69,7 @@ function callGoogleMaps(apiKey) {
     url: mapsUrl,
     dataType: 'jsonp'
   })
-  .done(initMaps);
+    .done(initMaps);
 }
 
 /**
@@ -152,7 +151,7 @@ function buildMap(posObj) {
       lat = 37.7833;
       lon = -122.4167;
     }
-  
+
     var locObj = new google.maps.LatLng(lat, lon);
 
     var mapProperties = {
@@ -194,12 +193,12 @@ function loadMarkerData(mkrObj) {
   var requestObj = {
     placeId: mkrObj.id
   };
-  
-  service.getDetails(requestObj, function(place, status) {
+
+  service.getDetails(requestObj, function (place, status) {
     var placeDataList = ['photos', 'address_components', 'formatted_phone_number', 'international_phone_number', 'price_level', 'rating', 'user_ratings_total', 'opening_hours', 'reviews', 'url'];
     var curItem = null;
     var phone = null;
-    
+
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       for (i = 0, len = placeDataList.length; i < len; i++) {
         curItem = place[placeDataList[i]];
@@ -210,7 +209,7 @@ function loadMarkerData(mkrObj) {
 
       // Photos
       if (typeof place.photos === 'object') {
-        place.photos.forEach(function(photo) {
+        place.photos.forEach(function (photo) {
           mkrObj.photos.push(photo.getUrl({
             'maxWidth': 350,
             'maxHeight': 200
@@ -256,7 +255,7 @@ function loadMarkerData(mkrObj) {
       }
       else {
         mkrObj.status('Now Closed');
-      }        
+      }
 
       // Review snippit with source link
       var clip = '';
@@ -276,15 +275,15 @@ function loadMarkerData(mkrObj) {
       else {
         clip = 'No comments or link available.';
       }
-    } 
+    }
     else {
       geolocationService.handleError(status);
     }
   });
 }
 
-  
-module.exports = (function() {
+
+module.exports = (function () {
   return {
     loadMarkerData: loadMarkerData,
     callGoogleMaps: callGoogleMaps

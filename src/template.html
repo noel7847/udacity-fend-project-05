@@ -1,189 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="Noel Noche">
-    <meta name="description" content="Locate nearby coffee shops from your location.">
-    
-    <title>Cafe Seeker | hellonoel.com</title>
-  </head>
-  
-  <body>
-    <div class="alert-panel">
-      <!--[if IE]>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Noel Noche">
+  <meta name="description" content="Locate nearby coffee shops from your location.">
+
+  <title>Cafe Seeker | hellonoel.com</title>
+</head>
+
+<body>
+  <div class="alert-panel">
+    <!--[if IE]>
         <p class="alert-panel__browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
-      <noscript class="alert-panel__noscript">Sorry, you need JavaScript enabled to run this application.</noscript>
-      <div class="geolocation__notifier"></div>
-    </div>
+    <noscript class="alert-panel__noscript">Sorry, you need JavaScript enabled to run this application.</noscript>
+    <div class="geolocation__notifier"></div>
+  </div>
 
-    <div class="page-wrapper">
-      <header class="header sr-only">
-        <h1>Coffee Seeker</h1>
-      </header>
+  <div class="page-wrapper">
+    <header class="header sr-only">
+      <h1>Coffee Seeker</h1>
+    </header>
 
-      <!-- Left cafe list panel -->
-      <nav data-bind="fadeVisible: showMenu" class="navbar fixed-top collapse navbar-collapse">
-        
-        <!-- Location name -->
-        <h3 class="nav__location-name" data-bind="text: $data.location">?</h3>
-            
-        <!-- Search/Filter box -->
-        <div class="nav__filter-box input-group mb-3">
-          <input class="form-control" type="text" data-bind="textInput: query" placeholder="Filter results" size="30">
+    <!-- Left cafe list panel -->
+    <nav data-bind="fadeVisible: showMenu" class="navbar fixed-top collapse navbar-collapse">
 
-          <div class="input-group-append">
-            <button data-bind="event: { click: filter_raters }" type="button" class="btn btn--border-ccc nav__ranker-btn nav__ranker-btn--inactive" data-toggle="button" aria-pressed="false">
-              <img class="ranker-btn__img" src="assets/icon_star-black.svg" alt="button star icon">
-              <img class="ranker-btn__img--png" src="assets/icon_star-white.png" alt="button star icon">
-            </button>			     				
-          </div>
-        </div>
-       
-        <!-- Filtered results -->
-        <ul data-bind="fadein:1000, foreach: filtered()">
-          <!-- ko ifnot: hasMemo -->
-          <li data-bind="text: $data.name, highlight: 100, event: { click: $parent.set_marker }"></li>
-          <!-- /ko -->
-          <!-- ko if: hasMemo -->
-          <li data-bind="text: '&#8224; ' + $data.name, highlight: 200, event: { click: $parent.set_marker }"></li>
-          <!-- /ko -->
-        </ul>
-        
-        <!-- If no match -->
-        <b class="hidden" data-bind="visible: noMatch, css: { hidden: false }">No match</b>
-      </nav>
+      <!-- Location name -->
+      <h3 class="nav__location-name" data-bind="text: $data.location">?</h3>
 
-      <div role="main">
-        <div class="container">
+      <!-- Search/Filter box -->
+      <div class="nav__filter-box input-group mb-3">
+        <input class="form-control" type="text" data-bind="textInput: query" placeholder="Filter results" size="30">
 
-          <!-- Map -->
-          <div class="row">
-            <div class="col" id="map-canvas"></div>
-          </div>
-
-          <!-- Modal window -->
-          <div data-bind="with: currentMarker" id="modalWin" class="modal fade" role="dialog" tabindex="-1">
-
-            <!-- Modal content -->
-            <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 data-bind="text: $data.name" class="modal-title"></h4>
-                  <button data-bind="event:{ click: closeModal }" type="button" class="close modal-close" arial-label="Close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                
-                <div class="modal-body">
-                  <div id="detailsModal" class="carousel slide" data-ride="carousel">
-
-                    <!-- Photo carousel -->
-                    <div data-bind="foreach: $data.photos" class="carousel-inner" role="listbox">				
-                      <!-- ko if: $index() === 0 -->
-                      <div class="carousel-item active">
-                        <img class="carousel-img d-block img-fluid" data-bind="attr: { src: $data }">
-                      </div>
-                      <!-- /ko -->
-                      <!-- ko if: $index() !== 0 -->
-                      <div class="carousel-item item">
-                        <img class="carousel-img d-block img-fluid" data-bind="attr: { src: $data }">
-                      </div>
-                      <!-- /ko -->
-                    </div>
-
-                    <!-- Left and right controls -->
-                    <a class="carousel-control-prev" href="#detailsModal" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#detailsModal" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  
-                  </div>
-
-                  <hr>
-
-                  <!-- Business address and phone -->
-                  <div class="modal__info-1">
-                    <p class="info-1__item" data-bind="text: $data.address1"></p>
-                    <p class="info-1__item" data-bind="text: $data.address2"></p>
-                    <p class="tel" data-bind="text: $data.phone"></p> 
-                  </div>
-
-                  <!-- Homepage button -->
-                  <!-- <div data-bind="with: hp"> -->
-                    <!-- ko if: $data.hp -->
-                    <a class="btn btn-light btn--border-ccc homepage-link-btn" role="button" data-bind="attr: { href: $data.hp }" target="_blank">Homepage</a>
-                    <!-- /ko -->
-                  <!-- </div> -->
-
-                  <hr>										
-    
-                  <!-- Price, rating and status -->
-                  <div class="modal__info-2">
-                    <table >
-                      <tr>
-                        <td class="info-2__category">Price </td>
-                        <td data-bind="text: $data.price"></td>
-                      </tr>
-                      <tr>
-                        <td class="info-2__category">Rating </td>
-                        <td data-bind="text: $data.ratingText"></td>
-                      </tr>
-                      <tr>
-                        <td class="info-2__category">Status </td>
-                        <td data-bind="text: $data.status"></td>
-                      </tr>
-                    </table>
-                  </div>
-
-                  <hr>
-                  
-                  <!-- User review clipping -->
-                  <div class="modal__info-3">
-                    <a data-bind="attr: { href: $data.url }, text: $data.clipping" target="_blank"></a>
-                  </div>
-                </div>
-
-                <!-- Memo feature and close button -->
-                <div class="modal-footer">	
-                  
-                  <!-- ko if: $data.memoOn -->
-                  <form class="memo-form">
-                    <textarea data-bind="textInput: $data.memo" rows="4" name="memo" form="memo-form"></textarea>
-                  </form>
-                  <button data-bind="event:{ click: $data.saveMemo }" type="button" class="btn btn-light">Ok</button>
-                  <!-- /ko -->
-                  
-                  <!-- ko ifnot: $data.memoOn -->
-                  <div data-bind="text: $data.memo" class="memo-area"></div>
-                  <div class="btn-group">
-                    <button data-bind="event:{ click: $data.createMemo }" type="button" class="btn btn-light btn--border-ccc">Memo</button>
-                    <button data-bind="event:{ click: closeModal }" type="button" class="btn btn-light btn--border-ccc" data-dismiss="modal">Close</button>
-                  </div>
-                  <!-- /ko -->
-                </div>
-              
-              </div>
-            </div>
-            <!-- End: Modal content -->
-
-          </div>
-          <!-- END: Modal window -->
-          
+        <div class="input-group-append">
+          <button data-bind="event: { click: filter_raters }" type="button"
+            class="btn btn--border-ccc nav__ranker-btn nav__ranker-btn--inactive" data-toggle="button"
+            aria-pressed="false">
+            <img class="ranker-btn__img" src="assets/icon_star-black.svg" alt="button star icon">
+            <img class="ranker-btn__img--png" src="assets/icon_star-white.png" alt="button star icon">
+          </button>
         </div>
       </div>
 
-      
-      <footer class="footer">
-        <p class="footer__item"><a href="https://github.com/noelnoche/udacity-fend-neighborhood-map" target="_blank">GitHub</a></p>
-        <p class="footer__item"><a href="https://hellonoel.com">hellonoel.com</a></p>
-      </footer>	
+      <!-- Filtered results -->
+      <ul data-bind="fadein:1000, foreach: filtered()">
+        <!-- ko ifnot: hasMemo -->
+        <li data-bind="text: $data.name, highlight: 100, event: { click: $parent.set_marker }"></li>
+        <!-- /ko -->
+        <!-- ko if: hasMemo -->
+        <li data-bind="text: '&#8224; ' + $data.name, highlight: 200, event: { click: $parent.set_marker }"></li>
+        <!-- /ko -->
+      </ul>
+
+      <!-- If no match -->
+      <b class="hidden" data-bind="visible: noMatch, css: { hidden: false }">No match</b>
+    </nav>
+
+    <div role="main">
+      <div class="container">
+
+        <!-- Map -->
+        <div class="row">
+          <div class="col" id="map-canvas"></div>
+        </div>
+
+        <!-- Modal window -->
+        <div data-bind="with: currentMarker" id="modalWin" class="modal fade" role="dialog" tabindex="-1">
+
+          <!-- Modal content -->
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 data-bind="text: $data.name" class="modal-title"></h4>
+                <button data-bind="event:{ click: closeModal }" type="button" class="close modal-close"
+                  arial-label="Close" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-body">
+                <div id="detailsModal" class="carousel slide" data-ride="carousel">
+
+                  <!-- Photo carousel -->
+                  <div data-bind="foreach: $data.photos" class="carousel-inner" role="listbox">
+                    <!-- ko if: $index() === 0 -->
+                    <div class="carousel-item active">
+                      <img class="carousel-img d-block img-fluid" data-bind="attr: { src: $data }">
+                    </div>
+                    <!-- /ko -->
+                    <!-- ko if: $index() !== 0 -->
+                    <div class="carousel-item item">
+                      <img class="carousel-img d-block img-fluid" data-bind="attr: { src: $data }">
+                    </div>
+                    <!-- /ko -->
+                  </div>
+
+                  <!-- Left and right controls -->
+                  <a class="carousel-control-prev" href="#detailsModal" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#detailsModal" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
+
+                </div>
+
+                <hr>
+
+                <!-- Business address and phone -->
+                <div class="modal__info-1">
+                  <p class="info-1__item" data-bind="text: $data.address1"></p>
+                  <p class="info-1__item" data-bind="text: $data.address2"></p>
+                  <p class="tel" data-bind="text: $data.phone"></p>
+                </div>
+
+                <!-- Homepage button -->
+                <!-- <div data-bind="with: hp"> -->
+                <!-- ko if: $data.hp -->
+                <a class="btn btn-light btn--border-ccc homepage-link-btn" role="button"
+                  data-bind="attr: { href: $data.hp }" target="_blank">Homepage</a>
+                <!-- /ko -->
+                <!-- </div> -->
+
+                <hr>
+
+                <!-- Price, rating and status -->
+                <div class="modal__info-2">
+                  <table>
+                    <tr>
+                      <td class="info-2__category">Price </td>
+                      <td data-bind="text: $data.price"></td>
+                    </tr>
+                    <tr>
+                      <td class="info-2__category">Rating </td>
+                      <td data-bind="text: $data.ratingText"></td>
+                    </tr>
+                    <tr>
+                      <td class="info-2__category">Status </td>
+                      <td data-bind="text: $data.status"></td>
+                    </tr>
+                  </table>
+                </div>
+
+                <hr>
+
+                <!-- User review clipping -->
+                <div class="modal__info-3">
+                  <a data-bind="attr: { href: $data.url }, text: $data.clipping" target="_blank"></a>
+                </div>
+              </div>
+
+              <!-- Memo feature and close button -->
+              <div class="modal-footer">
+
+                <!-- ko if: $data.memoOn -->
+                <form class="memo-form">
+                  <textarea data-bind="textInput: $data.memo" rows="4" name="memo" form="memo-form"></textarea>
+                </form>
+                <button data-bind="event:{ click: $data.saveMemo }" type="button" class="btn btn-light">Ok</button>
+                <!-- /ko -->
+
+                <!-- ko ifnot: $data.memoOn -->
+                <div data-bind="text: $data.memo" class="memo-area"></div>
+                <div class="btn-group">
+                  <button data-bind="event:{ click: $data.createMemo }" type="button"
+                    class="btn btn-light btn--border-ccc">Memo</button>
+                  <button data-bind="event:{ click: closeModal }" type="button" class="btn btn-light btn--border-ccc"
+                    data-dismiss="modal">Close</button>
+                </div>
+                <!-- /ko -->
+              </div>
+
+            </div>
+          </div>
+          <!-- End: Modal content -->
+
+        </div>
+        <!-- END: Modal window -->
+
+      </div>
     </div>
-  </body>
+
+
+    <footer class="footer">
+      <p class="footer__item"><a href="https://github.com/noelnoche/udacity-cafe-seeker" target="_blank">GitHub</a></p>
+      <p class="footer__item"><a href="https://hellonoel.com">hellonoel.com</a></p>
+    </footer>
+  </div>
+</body>
+
 </html>
