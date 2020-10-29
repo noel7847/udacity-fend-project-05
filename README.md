@@ -48,4 +48,4 @@ Cafe Seeker locates coffee shops and bakeries that are within a 1000 meter radiu
 
 
 ## License
-Code provided under an **[MIT license](https://github.com/noelnoche/udacity-fend-neighborhood-map/blob/gh-pages/LICENSE.md)**.
+Code provided under an **[MIT license](https://github.com/noelnoche/udacity-fend-neighborhood-map/blob/master/LICENSE.md)**.
